@@ -12,9 +12,9 @@ DROP TABLE IF EXISTS comments;
 CREATE TABLE users (
     id INTEGER,
     name TEXT NOT NULL,
-    email TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    displayName TEXT,
+    displayName TEXT NOT NULL UNIQUE,
     PRIMARY KEY (id)
     CHECK(password <> '')
   );
