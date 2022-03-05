@@ -13,6 +13,27 @@ const db = new Database("./data.db", {
 const createUser = db.prepare(`
 INSERT INTO users (name, email, password, displayName) VALUES (?,?,?,?)`);
 
+const getUsers = db.prepare(`
+SELECT * FROM users;
+`);
+
+const getUserbyId = db.prepare(`
+SELECT * FROM users WHERE id = (?);
+`);
+
+app.get(`/users`, (req, res) => {
+  const users = getUsers.all();
+  res.send(users);
+});
+
+app.get(`/users/:id`, (req, res) => {
+  const id = req.params.id;
+  const user = getUserbyId.get(id);
+  if (user) {
+    res.send(user);
+  } else res.status(404).send({ error: "Not found!" });
+});
+
 app.post(`/login`, (req, res) => {
   const { email, password } = req.body;
 });
